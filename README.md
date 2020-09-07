@@ -292,3 +292,16 @@ def lambda_handler(event, context):
 3.5 AWS S3 저장 확인 (KVS-VOD 폴더 내 *.mp4 저장)
 ![image](./images/Screen-11.png)
 ![image](./images/Screen-12.png)
+
+
+
+* * * 
+
+
+##### AWS KinesisVideoStreams 테스트 참고 링크
+- http://labs.brandi.co.kr/2018/07/31/kwakjs.html
+- https://qiita.com/amachi0/items/03572471beb25bad9c8d
+- https://www.alatortsev.com/aws-kinesis-video-streams/
+- https://aws.amazon.com/ko/blogs/machine-learning/analyze-live-video-at-scale-in-real-time-using-amazon-kinesis-video-streams-and-amazon-sagemaker/
+
+
