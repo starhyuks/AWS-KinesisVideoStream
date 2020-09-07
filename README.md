@@ -1,8 +1,8 @@
-# AWS KinesisVideoStream
+# AWS KinesisVideoStreams
 
 * * *
 
-### # Kinesis Video Stream - Serverless 테스트 구성 방안 ([1]~[3]) 
+### # KinesisVideoStreams - Serverless 테스트 구성 방안 ([1]~[3]) 
 
 - [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
 - [2] API-Gateway (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
@@ -10,25 +10,25 @@
 
 * * *
 
-### # Kinesis Video Stream - 테스트 구성 고려 사항 
+### # KinesisVideoStreams - 테스트 구성 고려 사항 
 
-- [1] Kinesis Video Stream 1개 채널 기준으로 테스트 구성 (다수의 채널 처리 부분은 원하는 방향으로 개발 로직 구현 필요)
-- [2] Kinesis Video Stream API TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
+- [1] KinesisVideoStreams 1개 채널 기준으로 테스트 구성 (다수의 채널 처리 부분은 원하는 방향으로 개발 로직 구현 필요)
+- [2] KinesisVideoStreams API TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
 - [3] Lambda에서 KVS 채널을 호출할 경우 동일한 리전에서 호출되어야 하는 제약사항 있음 (테스트 간 확인)
 
 <br>
 
-Kinesis Video Stream - API Syntax 참고 링크 
+KinesisVideoStreams - API Syntax 참고 링크 
 https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html
 
-Kinesis Video Stream - Serverless 구성 테스트 진행을 위한 API-Gateway 생성 화면 
+KinesisVideoStreams - Serverless 구성 테스트 진행을 위한 API-Gateway 생성 화면 
 ![image](./images/Screen-1.png)
 
 <br>
 
 * * *
 
-### # Kinesis Video Stream - Serverless 테스트 구성 정리 ([1]~[3]) 
+### # KinesisVideoStreams - Serverless 테스트 구성 정리 ([1]~[3]) 
 
 #### [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
 
@@ -36,7 +36,7 @@ Kinesis Video Stream - Serverless 구성 테스트 진행을 위한 API-Gateway 
 
 ##### 1-2. AWS Lambda Python 예제로 구성 (GET_HLS_STREAMING_SESSION_URL)
 
-- get_hls_streaming_session_url()
+- get_hls_streaming_session_url() : 
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.get_hls_streaming_session_url
 
 ```python
@@ -45,7 +45,7 @@ import json
 import boto3
 
 def lambda_handler(event, context):
-    # Kinesis Video Stream ARN
+    # KinesisVideoStreams ARN
     streamarn = "arn:aws:kinesisvideo:ap-northeast-2:00000000000:stream/KVSTEST/1597742988841"
 
     kvs = boto3.client('kinesisvideo',region_name='ap-northeast-2')
@@ -70,16 +70,16 @@ def lambda_handler(event, context):
     return res
 ```
 
-##### 1-3. S3 정적 웹사이트 호스팅 (index.html)
+##### 1-3. S3 정적 웹사이트 호스팅 구성 (index.html)
 ![image](./images/Screen-2.png)
 
 
-##### 1-4. S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-Gateway 호출)
+##### 1-4. S3 정적 웹사이트 호스팅 구성 (index.html - Video-js 플레이어 API-Gateway 호출)
 ```python
 <html>
 
 <head>
-    <title>Kinesis Video Stream Test</title>
+    <title>KinesisVideoStreams Test</title>
     <link href="https://vjs.zencdn.net/7.4.1/video-js.css" rel="stylesheet">
 </head>
 
@@ -110,7 +110,7 @@ def lambda_handler(event, context):
 ![image](./images/Screen-3.png)
 
 
-##### 1-6. S3 정적 웹사이트 호스팅 KVS - GET_HLS_STREAMING_SESSION_URL 재생
+##### 1-6. S3 정적 웹사이트 호스팅 - KVS GET_HLS_STREAMING_SESSION_URL 재생 확인
 ![image](./images/Screen-4.png)
 
 * * *
@@ -187,13 +187,13 @@ def lambda_handler(event, context):
 
     s3 = boto3.client('s3')
     s3.put_object(Bucket=bucket, Key=mkv_key, Body=Fragment_stream['Payload'].read())
-    print("Kinesis Video Stream fragment stored in the S3 bucket")
+    print("KinesisVideoStreams fragment stored in the S3 bucket")
 
 
     headers = {'Content-Type' : 'application/json', 'Access-Control-Allow-Origin': '*'}
     res = {
         "statusCode" : 200,
-        "body" : "Kinesis Video Stream fragment stored in the S3 bucket",
+        "body" : "KinesisVideoStreams fragment stored in the S3 bucket",
         "headers" : headers
     }
     return res
@@ -271,13 +271,13 @@ def lambda_handler(event, context):
 
     s3 = boto3.client('s3')
     s3.put_object(Bucket=bucket, Key=mp4_key, Body=Stream_GetClip['Payload'].read())
-    print("Kinesis Video Stream VOD Clip stored in the S3 bucket")
+    print("KinesisVideoStreams VOD Clip stored in the S3 bucket")
 
 
     headers = {'Content-Type' : 'application/json', 'Access-Control-Allow-Origin': '*'}
     res = {
         "statusCode" : 200,
-        "body" : "Kinesis Video Stream VOD Clip stored stored in the S3 bucket",
+        "body" : "KinesisVideoStreams VOD Clip stored stored in the S3 bucket",
         "headers" : headers
     }
     return res
