@@ -293,12 +293,13 @@ def lambda_handler(event, context):
 ![image](./images/Screen-11.png)
 ![image](./images/Screen-12.png)
 
-
+<br>
 
 * * * 
 
+<br>
 
-##### AWS KinesisVideoStreams 테스트 참고 링크
+#### AWS KinesisVideoStreams 테스트 참고 링크
 - http://labs.brandi.co.kr/2018/07/31/kwakjs.html
 - https://qiita.com/amachi0/items/03572471beb25bad9c8d
 - https://www.alatortsev.com/aws-kinesis-video-streams/
