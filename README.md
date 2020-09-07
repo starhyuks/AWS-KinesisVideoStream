@@ -196,7 +196,8 @@ def lambda_handler(event, context):
     return res
 ```
 
-##### 2-3 API-Gateway 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
+##### 2-3 API-Gateway 호출 테스트 결과 (/store - GET)
+![image](./images/Screen-5.png)
 
 
 ##### 2-4 AWS CloudWatch Lambda 로그 확인
