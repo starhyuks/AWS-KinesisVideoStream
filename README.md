@@ -8,11 +8,7 @@
 - [2] API-Gateway (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
 - [3] API-Gateway (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
-<br>
-
 * * *
-
-<br>
 
 ### # Kinesis Video Stream - 테스트 구성 고려 사항 
 
@@ -22,20 +18,17 @@
 
 <br>
 
-- Kinesis Video Stream - API Syntax 참고 링크 
+Kinesis Video Stream - API Syntax 참고 링크 
 https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html
 
 <br>
 
-- Kinesis Video Stream - Serverless 구성 테스트를 위한 API-Gateway 생성 
+Kinesis Video Stream - Serverless 구성 테스트 진행을 위한 API-Gateway 생성 화면 
 ![image](./images/Screen-1.png)
 
 <br>
-<br>
 
 * * *
-
-<br>
 
 ### # Kinesis Video Stream - Serverless 테스트 구성 정리 ([1]~[3]) 
 
