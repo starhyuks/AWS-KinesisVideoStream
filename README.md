@@ -1,18 +1,16 @@
-# AWS-KinesisVideoStream
+# AWS KinesisVideoStream
 
 
 
-## Kinesis Video Stream - Serverless 테스트 구성 방안 ([1]~[3])
+### Kinesis Video Stream - Serverless 테스트 구성 방안 ([1]~[3]) 
 
-<br>
+- [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+- [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
+- [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
-### [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
-### [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
-### [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
+* * *
 
-<br>
-
-## Kinesis Video Stream - 테스트 구성 고려 사항
+### Kinesis Video Stream - 테스트 구성 고려 사항 
 
 - Kinesis Video Stream 1개 채널 기준으로 테스트 구성, 다수 채널 처리에 대한 부분은 원하는 개발 로직 방향으로 구현 필요
 - Kinesis Video Stream Lambda 테스트 구성 예제에서 KVS API에 대한 TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
@@ -25,15 +23,13 @@
 
 - AWS Kinesis Video Stream 3가지 시나리오에 대한 AWS Lambda 예제 코드와 결과 화면은 아래와 같습니다.
 
-
 * * *
 
+#### [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
 
-### [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+##### 1-1 AWS API-Gateway 구성 (/session - GET)
 
-#### 1-1 AWS API-Gateway 구성 (/session - GET)
-
-#### 1-2 AWS Lambda Python 예제로 구성 (GET_HLS_STREAMING_SESSION_URL)
+##### 1-2 AWS Lambda Python 예제로 구성 (GET_HLS_STREAMING_SESSION_URL)
 
 - get_hls_streaming_session_url()
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.get_hls_streaming_session_url
@@ -69,11 +65,11 @@ def lambda_handler(event, context):
     return res
 ```
 
-#### 1-3 S3 정적 웹사이트 호스팅 (index.html)
+##### 1-3 S3 정적 웹사이트 호스팅 (index.html)
 ![image](/images/Day1-Description-VPC.png)
 
 
-#### 1-4 S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-GW 호출)
+##### 1-4 S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-GW 호출)
 ```python
 <html>
 
@@ -105,20 +101,20 @@ def lambda_handler(event, context):
 </html>
 ```
 
-#### 1-5 API-GW 호출 테스트 결과 (/session - GET)
+##### 1-5 API-GW 호출 테스트 결과 (/session - GET)
 ![image](/images/Day1-Description-VPC.png)
 
 
-#### 1-6 S3 정적 웹사이트 호스팅 KVS - GET_HLS_STREAMING_SESSION_URL 재생
+##### 1-6 S3 정적 웹사이트 호스팅 KVS - GET_HLS_STREAMING_SESSION_URL 재생
 ![image](/images/Day1-Description-VPC.png)
 
 * * *
 
-### [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
+#### [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
 
-#### 2-1 AWS API-Gateway 구성 (/store - GET)
+##### 2-1 AWS API-Gateway 구성 (/store - GET)
 
-#### 2-2 AWS Lambda Python 예제로 구성 (GET_MEDIA_FOR_FRAGMENT_LIST)
+##### 2-2 AWS Lambda Python 예제로 구성 (GET_MEDIA_FOR_FRAGMENT_LIST)
 
 - list_fragments()
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.list_fragments
@@ -197,24 +193,24 @@ def lambda_handler(event, context):
     return res
 ```
 
-#### 2-3 API-GW 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
+##### 2-3 API-GW 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
 
 
-#### 2-4 AWS CloudWatch Lambda 로그 확인
+##### 2-4 AWS CloudWatch Lambda 로그 확인
 ![image](/images/Day1-Description-VPC.png)
 
 
-#### 2-5 AWS S3 저장 확인 (KVS-Fragment 폴더 내 *.mkv 저장)
+##### 2-5 AWS S3 저장 확인 (KVS-Fragment 폴더 내 *.mkv 저장)
 ![image](/images/Day1-Description-VPC.png)
 ![image](/images/Day1-Description-VPC.png)
 
 * * *
 
-### [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
+#### [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
-#### 3-1 AWS API-Gateway 구성 (/clip - GET)
+##### 3-1 AWS API-Gateway 구성 (/clip - GET)
 
-#### 3-2 AWS Lambda Python 예제로 구성 (GET_CLIP)
+##### 3-2 AWS Lambda Python 예제로 구성 (GET_CLIP)
 
 - get_clip()
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.get_clip
@@ -280,11 +276,11 @@ def lambda_handler(event, context):
     return res
 ```
 
-#### 3-3 API-GW 호출 테스트 결과 (/clip - GET)
+##### 3-3 API-GW 호출 테스트 결과 (/clip - GET)
 ![image](/images/Day1-Description-VPC.png)
 
 
-#### 3-4 AWS CloudWatch Lambda 로그 확인
+##### 3-4 AWS CloudWatch Lambda 로그 확인
 ![image](/images/Day1-Description-VPC.png)
 
 
