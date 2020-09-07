@@ -12,16 +12,19 @@
 
 ### # Kinesis Video Stream - 테스트 구성 고려 사항 
 
-- Kinesis Video Stream 1개 채널 기준으로 테스트 구성, 다수 채널 처리에 대한 부분은 원하는 개발 로직 방향으로 구현 필요
-- Kinesis Video Stream Lambda 테스트 구성 예제에서 KVS API에 대한 TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
-- Kinesis Video Stream 를 람다에서 호출할 경우 동일한 리전에서 호출되어야 하는 제약사항 있음 (테스트 간 확인)
-- Kinesis Video Stream API Syntax 참고 링크 (https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html)
+- [1] Kinesis Video Stream 1개 채널 기준으로 테스트 구성, 다수 채널 처리에 대한 부분은 원하는 개발 로직 방향으로 구현 필요
+- [2] KVS API에 대한 TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
+- [3] Lambda에서 KVS 채널을 호출할 경우 동일한 리전에서 호출되어야 하는 제약사항 있음 (테스트 간 확인)
 
-- 아래와 같이 Kinesis Video Stream Serverless구성 테스트를 위한 API-Gateway 생성
-![image](/images/Day1-Description-VPC.png)
-스크린샷 2020-09-01 오후 3.24.16.png
 
-- AWS Kinesis Video Stream 3가지 시나리오에 대한 AWS Lambda 예제 코드와 결과 화면은 아래와 같습니다.
+[ Kinesis Video Stream API Syntax 참고 링크 ]
+https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html
+
+[ Kinesis Video Stream Serverless 구성 테스트를 위한 API-Gateway 생성 ]
+![image](./images/Screen-1.png)
+
+
+# Kinesis Video Stream 3가지 시나리오에 대한 AWS Lambda 예제 코드와 결과 화면은 정리
 
 * * *
 
@@ -66,7 +69,7 @@ def lambda_handler(event, context):
 ```
 
 ##### 1-3 S3 정적 웹사이트 호스팅 (index.html)
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-2.png)
 
 
 ##### 1-4 S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-Gateway 호출)
@@ -102,11 +105,11 @@ def lambda_handler(event, context):
 ```
 
 ##### 1-5 API-Gateway 호출 테스트 결과 (/session - GET)
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-3.png)
 
 
 ##### 1-6 S3 정적 웹사이트 호스팅 KVS - GET_HLS_STREAMING_SESSION_URL 재생
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-4.png)
 
 * * *
 
@@ -193,16 +196,16 @@ def lambda_handler(event, context):
     return res
 ```
 
-##### 2-3 API-Gateway 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
+##### 2-3 API-Gateway 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
 
 
 ##### 2-4 AWS CloudWatch Lambda 로그 확인
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-6.png)
 
 
 ##### 2-5 AWS S3 저장 확인 (KVS-Fragment 폴더 내 *.mkv 저장)
-![image](/images/Day1-Description-VPC.png)
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-7.png)
+![image](./images/Screen-8.png)
 
 * * *
 
@@ -277,13 +280,13 @@ def lambda_handler(event, context):
 ```
 
 ##### 3-3 API-Gateway 호출 테스트 결과 (/clip - GET)
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-9.png)
 
 
 ##### 3-4 AWS CloudWatch Lambda 로그 확인
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-10.png)
 
 
 3.5 AWS S3 저장 확인 (KVS-VOD 폴더 내 *.mp4 저장)
-![image](/images/Day1-Description-VPC.png)
-![image](/images/Day1-Description-VPC.png)
+![image](./images/Screen-11.png)
+![image](./images/Screen-12.png)
