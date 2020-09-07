@@ -2,22 +2,22 @@
 
 
 
-### Kinesis Video Stream - Serverless 테스트 구성 방안 ([1]~[3]) 
+### # Kinesis Video Stream - Serverless 테스트 구성 방안 ([1]~[3]) 
 
-- [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
-- [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
-- [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
+- [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+- [2] API-Gateway (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
+- [3] API-Gateway (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
 * * *
 
-### Kinesis Video Stream - 테스트 구성 고려 사항 
+### # Kinesis Video Stream - 테스트 구성 고려 사항 
 
 - Kinesis Video Stream 1개 채널 기준으로 테스트 구성, 다수 채널 처리에 대한 부분은 원하는 개발 로직 방향으로 구현 필요
-- Kinesis Video Stream Lambda 테스트 구성 예제에서 KVS API에 대한 TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
+- Kinesis Video Stream Lambda 테스트 구성 예제에서 KVS API에 대한 TimestampRange 인자 값의 경우 테스트를 위한 특정 시점 기준으로 입력
 - Kinesis Video Stream 를 람다에서 호출할 경우 동일한 리전에서 호출되어야 하는 제약사항 있음 (테스트 간 확인)
 - Kinesis Video Stream API Syntax 참고 링크 (https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html)
 
-- 아래와 같이 Kinesis Video Stream Serverless구성 테스트를 위한 API-GW 생성
+- 아래와 같이 Kinesis Video Stream Serverless구성 테스트를 위한 API-Gateway 생성
 ![image](/images/Day1-Description-VPC.png)
 스크린샷 2020-09-01 오후 3.24.16.png
 
@@ -25,7 +25,7 @@
 
 * * *
 
-#### [1] API-GW (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+#### [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
 
 ##### 1-1 AWS API-Gateway 구성 (/session - GET)
 
@@ -69,7 +69,7 @@ def lambda_handler(event, context):
 ![image](/images/Day1-Description-VPC.png)
 
 
-##### 1-4 S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-GW 호출)
+##### 1-4 S3 정적 웹사이트 호스팅 (index.html - Video-js 플레이어 API-Gateway 호출)
 ```python
 <html>
 
@@ -101,7 +101,7 @@ def lambda_handler(event, context):
 </html>
 ```
 
-##### 1-5 API-GW 호출 테스트 결과 (/session - GET)
+##### 1-5 API-Gateway 호출 테스트 결과 (/session - GET)
 ![image](/images/Day1-Description-VPC.png)
 
 
@@ -110,7 +110,7 @@ def lambda_handler(event, context):
 
 * * *
 
-#### [2] API-GW (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
+#### [2] API-Gateway (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
 
 ##### 2-1 AWS API-Gateway 구성 (/store - GET)
 
@@ -193,7 +193,7 @@ def lambda_handler(event, context):
     return res
 ```
 
-##### 2-3 API-GW 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
+##### 2-3 API-Gateway 호출 테스트 결과 (/store - GET)스크린샷 2020-09-02 오전 9.58.28.png
 
 
 ##### 2-4 AWS CloudWatch Lambda 로그 확인
@@ -206,7 +206,7 @@ def lambda_handler(event, context):
 
 * * *
 
-#### [3] API-GW (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
+#### [3] API-Gateway (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
 ##### 3-1 AWS API-Gateway 구성 (/clip - GET)
 
@@ -276,7 +276,7 @@ def lambda_handler(event, context):
     return res
 ```
 
-##### 3-3 API-GW 호출 테스트 결과 (/clip - GET)
+##### 3-3 API-Gateway 호출 테스트 결과 (/clip - GET)
 ![image](/images/Day1-Description-VPC.png)
 
 
