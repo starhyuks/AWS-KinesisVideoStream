@@ -21,8 +21,6 @@
 Kinesis Video Stream - API Syntax 참고 링크 
 https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html
 
-<br>
-
 Kinesis Video Stream - Serverless 구성 테스트 진행을 위한 API-Gateway 생성 화면 
 ![image](./images/Screen-1.png)
 
@@ -123,10 +121,11 @@ def lambda_handler(event, context):
 
 ##### 2-2. AWS Lambda Python 예제로 구성 (GET_MEDIA_FOR_FRAGMENT_LIST)
 
-- list_fragments()
+
+- list_fragments() : 
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.list_fragments
 
-- get_media_for_fragment_list()
+- get_media_for_fragment_list() :
 https://boto3.amazonaws.com/v1/documentation/api/latest/reference/services/kinesis-video-archived-media.html#KinesisVideoArchivedMedia.Client.get_media_for_fragment_list
 
 ```python
