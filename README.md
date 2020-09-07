@@ -4,7 +4,7 @@
 
 ### # KinesisVideoStreams - Serverless 테스트 구성 방안 ([1]~[3]) 
 
-- [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+- [1] API-Gateway (/session) + Lambda1 (KVS 채널로 전송 중인 실시간 영상을 HLS URL 재생 관련)
 - [2] API-Gateway (/store) + Lambda2 (특정 시점 분석을 위해 잘 개 쪼개진 Fragment 영상을 S3에 저장 관련)
 - [3] API-Gateway (/clip) + Lambda3 (특정 기간 동안의 MP4 VOD 영상을 S3에 저장 관련)
 
@@ -28,7 +28,7 @@ https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragmen
 
 ### # KinesisVideoStreams - Serverless 테스트 구성 정리 ([1]~[3]) 
 
-#### [1] API-Gateway (/session) + Lambda1(실시간 KVS로 전송 중인 영상을 HLS URL로 재생 관련)
+#### [1] API-Gateway (/session) + Lambda1 (KVS 채널로 전송 중인 실시간 영상을 HLS URL 재생 관련)
 
 ##### 1-1. AWS API-Gateway 구성 (/session - GET)
 
