@@ -18,13 +18,11 @@
 
 <br>
 
-KinesisVideoStreams - API Syntax 참고 링크 
+[준비] KinesisVideoStreams - API Syntax 참고 링크 
 https://docs.aws.amazon.com/kinesisvideostreams/latest/dg/API_reader_ListFragments.html
 
-KinesisVideoStreams - Serverless 구성 테스트 진행을 위한 API-Gateway 생성 화면 
+[준비] KinesisVideoStreams - Serverless 구성 테스트 진행을 위한 API-Gateway 생성
 ![image](./images/Screen-1.png)
-
-<br>
 
 * * *
 
